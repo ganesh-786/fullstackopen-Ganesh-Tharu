@@ -6,7 +6,16 @@
 # Full Stack Open  
 > Modern web development with JavaScript by University of Helsinki & Houston Inc.  
 
-![University of Helsinki Logo](https://www.sttinfo.fi/data/images/00382/395bc891-fb8c-47c3-a253-6a2b19670133.jpg)  
+<p align="center">
+  <img
+    src="https://www.sttinfo.fi/data/images/00382/395bc891-fb8c-47c3-a253-6a2b19670133.jpg"
+    alt="University of Helsinki Logo"
+    width="200"
+    height="200"
+    style="object-fit: contain;"
+  />
+</p>
+
 
 ---
 
