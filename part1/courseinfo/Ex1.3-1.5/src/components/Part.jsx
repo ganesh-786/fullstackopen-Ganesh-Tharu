@@ -1,12 +1,12 @@
 import React from "react";
 
-function Part({ title1, title2, title3, exercises1, exercises2, exercises3 }) {
+function Part({ title1, title2, title3, ex1, ex2, ex3 }) {
   return (
     <div>
       <p>
         <pre>
           Titles: {title1}, {title2}, {title3} <br />
-          Exercises: {exercises1} , {exercises2}, {exercises3}
+          Exercises: {ex1} , {ex2}, {ex3}
         </pre>
       </p>
     </div>

@@ -1,9 +1,12 @@
 import React from "react";
 
-function Total({ exercises1, exercises2, exercises3 }) {
+function Total({ title1, title2, title3 }) {
   return (
     <div>
-      <h1>exercises count is: {exercises1 + exercises2 + exercises3}</h1>
+      <h1>
+        exercises count is:{" "}
+        {title1.exercises + title2.exercises + title3.exercises}
+      </h1>
     </div>
   );
 }
