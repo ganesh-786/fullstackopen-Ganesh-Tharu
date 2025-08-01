@@ -3,10 +3,12 @@ import React from "react";
 function StatisticLine({ text, value }) {
   return (
     <table>
-      <tr>
-        <td> {text} </td>
-        <td> {value} </td>
-      </tr>
+      <tbody>
+        <tr>
+          <td style={{ width: "50px", border: "1px solid black" }}>{text}</td>
+          <td style={{ width: "50px", border: "1px solid black" }}>{value}</td>
+        </tr>
+      </tbody>
     </table>
   );
 }

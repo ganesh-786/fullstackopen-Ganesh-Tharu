@@ -18,13 +18,14 @@ function Statistic({ count1, count2, count3 }) {
       <StatisticLine text="all" value={count1 + count2 + count3} />
       <StatisticLine
         text="average"
-        value={
-          (count1 * 1 + count2 * 0 + count3 * -1) / (count1 + count2 + count3)
-        }
+        value={(
+          (count1 * 1 + count2 * 0 + count3 * -1) /
+          (count1 + count2 + count3)
+        ).toFixed(2)}
       />
       <StatisticLine
         text="positive"
-        value={(count1 / (count1 + count2 + count3)) * 100}
+        value={((count1 / (count1 + count2 + count3)) * 100).toFixed(2) + "%"}
       />
     </div>
   );
