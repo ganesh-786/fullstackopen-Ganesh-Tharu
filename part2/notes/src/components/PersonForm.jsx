@@ -7,6 +7,7 @@ function PersonForm({
   onNumberChange,
   onSubmit,
 }) {
+  //this is the PersonForm function
   return (
     <form onSubmit={onSubmit} style={{ margin: "16px 0" }}>
       <div>
