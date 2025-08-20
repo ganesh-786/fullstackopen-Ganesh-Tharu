@@ -1,11 +1,13 @@
 import React from "react";
 
-function Persons({ persons }) {
+function Persons({ persons, handleDelete, onEdit }) {
   return (
     <div>
       {persons.map((person, i) => (
         <div key={i}>
-          {person.name} {person.number}
+          {person.name} {person.number}{" "}
+          <button onClick={() => handleDelete(person.id)}>delete</button>
+          <button onClick={() => onEdit(person)}>update</button>
         </div>
       ))}
     </div>

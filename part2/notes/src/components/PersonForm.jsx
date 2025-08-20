@@ -6,8 +6,9 @@ function PersonForm({
   onNameChange,
   onNumberChange,
   onSubmit,
+  isEditing,
+  onCancelEdit,
 }) {
-  //this is the PersonForm function
   return (
     <form onSubmit={onSubmit} style={{ margin: "16px 0" }}>
       <div>
@@ -17,7 +18,16 @@ function PersonForm({
         number: <input value={numberValue} onChange={onNumberChange} />
       </div>
       <div>
-        <button type="submit">add</button>
+        <button type="submit">{isEditing ? "update" : "add"}</button>
+        {isEditing && (
+          <button
+            type="button"
+            onClick={onCancelEdit}
+            style={{ marginLeft: 8 }}
+          >
+            cancel
+          </button>
+        )}
       </div>
     </form>
   );
