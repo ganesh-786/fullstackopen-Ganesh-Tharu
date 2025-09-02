@@ -1,22 +1,32 @@
-import { Person } from "../models/Person.js";
-export const createUser = async (req, res) => {
-  try {
-    const { name, number } = req.body;
-    const newPerson = new Person({ name, number });
-    const savedPerson = await newPerson.save();
-    res.status(201).json(savedPerson);
-  } catch (error) {
-    console.log("Error during Creating user", error);
-    res.status(500).json({ error: "Error creating user" });
-  }
+const data = [
+  {
+    id: "1",
+    name: "Arto Hellas",
+    number: "040-123456",
+  },
+  {
+    id: "2",
+    name: "Ada Lovelace",
+    number: "39-44-5323523",
+  },
+  {
+    id: "3",
+    name: "Dan Abramov",
+    number: "12-43-234345",
+  },
+  {
+    id: "4",
+    name: "Mary Poppendieck",
+    number: "39-23-6423122",
+  },
+];
+
+export const getUser = (req, res) => {
+  res.status(200).json(data);
 };
 
-export const getUser = async (req, res) => {
-  try {
-    const people = await Person.find({});
-    res.status(200).json(people);
-  } catch (error) {
-    console.log("error during getting user", error);
-    res.status(500).json({ error: "Error getting users" });
-  }
+export const getInfo = (req, res) => {
+  res
+    .status(200)
+    .send(`Phonebook has info for ${data.length} people <br> ${new Date()}`);
 };
