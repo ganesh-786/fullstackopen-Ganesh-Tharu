@@ -3,6 +3,8 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import axios from "axios";
+import "../index.css";
+import Notification from "./components/Notification";
 
 function App() {
   const [persons, setPersons] = useState([]);
@@ -11,6 +13,15 @@ function App() {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [editingPerson, setEditingPerson] = useState(null); // Track person being edited
+  const [notify, setNotify] = useState("");
+
+  // Make notification disappear after 5 seconds
+  useEffect(() => {
+    if (notify) {
+      const timer = setTimeout(() => setNotify(""), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [notify]);
 
   useEffect(() => {
     axios.get("http://localhost:3001/persons").then((response) => {
@@ -44,10 +55,10 @@ function App() {
               setNewName("");
               setNewNumber("");
               setEditingPerson(null);
+              setNotify("Updated Successfully!");
             })
             .catch((err) => {
               console.error(err);
-              alert("Could not update the person. Please try again later.");
             })
         : "Thanks for staying!";
       return;
@@ -67,20 +78,35 @@ function App() {
         setPersons((prev) => [...prev, res.data]);
         setNewName("");
         setNewNumber("");
+        setNotify("Added Successfully!");
       })
       .catch((err) => {
         console.error(err);
-        alert("Could not save the person. Please try again later.");
+        setNotify("Could not save the person");
       });
   };
 
   const handleDelete = (id) => {
-    window.confirm("Do you want to delete?")
-      ? axios
-          .delete(`http://localhost:3001/persons/${id}`)
-          .then(() => setPersons((prev) => prev.filter((p) => p.id !== id)))
-          .catch((err) => console.log(err))
-      : "Glad to see you Staying!";
+    if (window.confirm("Do you want to delete?")) {
+      axios
+        .delete(`http://localhost:3001/persons/${id}`)
+        .then(() => {
+          setPersons((prev) => prev.filter((p) => p.id !== id));
+          setNotify("Delete Success!");
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 404) {
+            setNotify("This person was already deleted from the server.");
+            setPersons((prev) => prev.filter((p) => p.id !== id));
+          } else {
+            setNotify("An error occurred while deleting.");
+          }
+          console.log(error);
+        });
+    } else {
+      // User cancelled
+      setNotify("Glad to see you Staying!");
+    }
   };
 
   // When update button is clicked in Persons
@@ -106,7 +132,7 @@ function App() {
   return (
     <div style={{ padding: "16px", fontFamily: "Arial, sans-serif" }}>
       <h2>Phonebook</h2>
-
+      <Notification message={notify} />
       <Filter
         label="Search for names"
         value={searchName}
