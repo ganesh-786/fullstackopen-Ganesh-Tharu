@@ -30,3 +30,41 @@ export const getInfo = (req, res) => {
     .status(200)
     .send(`Phonebook has info for ${data.length} people <br> ${new Date()}`);
 };
+
+export const getUnique = (req, res) => {
+  const id = req.params.id;
+  const person = data.find((i) => i.id === id);
+  if (person) {
+    res.status(200).json(person);
+  } else {
+    res.status(404).json({ error: "Person not found" });
+  }
+};
+export const createUser = (req, res) => {
+  const { name, number } = req.body;
+  // Check if a person with the same name or number already exists
+  const exists = data.some((i) => i.name === name || i.number === number);
+  if (exists) {
+    return res
+      .status(409)
+      .json({ error: "Person with same name or number already exists" });
+  }
+  const obj = {
+    id: Math.floor(Math.random() * 100).toString(),
+    name,
+    number,
+  };
+  data.push(obj);
+  res.status(201).json(data);
+};
+
+export const deleteUser = (req, res) => {
+  const id = req.params.id;
+  const index = data.findIndex((i) => i.id === id);
+  if (index !== -1) {
+    const deleted = data.splice(index, 1);
+    res.status(200).json({ message: "Person deleted", deleted: deleted[0] });
+  } else {
+    res.status(404).json({ error: "Person not found" });
+  }
+};
