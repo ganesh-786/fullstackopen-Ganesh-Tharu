@@ -5,7 +5,7 @@ import Persons from "./components/Persons";
 import axios from "axios";
 import "../index.css";
 import Notification from "./components/Notification";
-const BaseUrl = `http://localhost:3001/api/persons`;
+const BaseUrl = `https://fullstackopen-ganesh-tharu.onrender.com/api/persons`;
 function App() {
   const [persons, setPersons] = useState([]);
   const [searchName, setSearchName] = useState("");
