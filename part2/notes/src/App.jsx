@@ -5,7 +5,7 @@ import Persons from "./components/Persons";
 import axios from "axios";
 import "../index.css";
 import Notification from "./components/Notification";
-
+const BaseUrl = `http://localhost:3001/api/persons`;
 function App() {
   const [persons, setPersons] = useState([]);
   const [searchName, setSearchName] = useState("");
@@ -24,7 +24,7 @@ function App() {
   }, [notify]);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
+    axios.get(`${BaseUrl}`).then((response) => {
       const notes = response.data;
       setPersons(notes);
       console.log(notes);
@@ -43,7 +43,7 @@ function App() {
       // Update existing person
       window.confirm("Already present, Now do you want to update?")
         ? axios
-            .put(`http://localhost:3001/persons/${editingPerson.id}`, {
+            .put(`${BaseUrl}/${editingPerson.id}`, {
               id: editingPerson.id,
               name: newName,
               number: newNumber,
@@ -70,14 +70,18 @@ function App() {
     }
 
     axios
-      .post("http://localhost:3001/persons", {
+      .post(`${BaseUrl}`, {
         name: newName,
         number: newNumber,
       })
       .then((res) => {
-        setPersons((prev) => [...prev, res.data]);
         setNewName("");
         setNewNumber("");
+        axios.get(`${BaseUrl}`).then((res) => {
+          const data = res.data;
+          setPersons(data);
+          console.log(data);
+        });
         setNotify("Added Successfully!");
       })
       .catch((err) => {
@@ -89,7 +93,7 @@ function App() {
   const handleDelete = (id) => {
     if (window.confirm("Do you want to delete?")) {
       axios
-        .delete(`http://localhost:3001/persons/${id}`)
+        .delete(`${BaseUrl}/${id}`)
         .then(() => {
           setPersons((prev) => prev.filter((p) => p.id !== id));
           setNotify("Delete Success!");

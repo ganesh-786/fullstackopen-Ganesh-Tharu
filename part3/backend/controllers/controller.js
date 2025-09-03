@@ -32,7 +32,7 @@ export const getInfo = (req, res) => {
 };
 
 export const getUnique = (req, res) => {
-  const id = req.params.id;
+  const id = Number(req.params.id);
   const person = data.find((i) => i.id === id);
   if (person) {
     res.status(200).json(person);
@@ -56,6 +56,19 @@ export const createUser = (req, res) => {
   };
   data.push(obj);
   res.status(201).json(data);
+};
+
+export const updateUser = (req, res) => {
+  const id = String(req.params.id);
+  const { name, number } = req.body;
+  const index = data.findIndex((i) => i.id === id);
+  if (index === -1) {
+    return res.status(404).json({ error: "Person not found" });
+  }
+  // Update the user in the array
+  data[index].name = name;
+  data[index].number = number;
+  res.status(200).json(data[index]);
 };
 
 export const deleteUser = (req, res) => {
