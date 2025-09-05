@@ -5,6 +5,8 @@ const personSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      min: 3,
+      max: 10,
     },
     number: {
       type: String,

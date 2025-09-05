@@ -1,6 +1,6 @@
 import { Person } from "../models/Person.js";
 
-export const createUser = async (req, res) => {
+export const createUser = async (req, res, next) => {
   try {
     const { name, number } = req.body;
     const newPerson = new Person({ name, number });
@@ -9,6 +9,7 @@ export const createUser = async (req, res) => {
   } catch (error) {
     console.log("Error during Creating user", error);
     res.status(500).json({ error: "Error creating user" });
+    next(error);
   }
 };
 
@@ -65,3 +66,5 @@ export const deleteUser = async (req, res) => {
     res.status(500).json({ error: "Error deleting user" });
   }
 };
+
+export const middleware = (req, res, error, next) => {};
