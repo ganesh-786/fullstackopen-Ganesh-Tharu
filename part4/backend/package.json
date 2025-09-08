@@ -4,16 +4,21 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "test": "node --test",
-    "start": "node --watch server.js"
+    "test": "cross-env NODE_ENV=test node --test",
+    "start": "cross-env NODE_ENV=production node server.js",
+    "dev": "cross-env NODE_ENV=development node --watch server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "cross-env": "^10.0.0",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "mongoose": "^8.18.0"
+  },
+  "devDependencies": {
+    "supertest": "^7.1.4"
   }
 }

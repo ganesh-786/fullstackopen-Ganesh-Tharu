@@ -1,9 +1,11 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
+const MONGO_URI =
+  process.env.NODE_ENV === "test" ? process.env.TEST_MONGO : process.env.MONGO;
 export const connectDB = async (req, res) => {
   try {
-    await mongoose.connect(process.env.MONGO);
+    await mongoose.connect(MONGO_URI);
     console.log("Database connected successfully!");
   } catch (error) {
     console.log("error connecting database!", error);
