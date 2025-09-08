@@ -1,3 +1,48 @@
+describe("deletion of a blog", () => {
+  test("a blog can be deleted (4.13)", async () => {
+    const blogsAtStart = await helper.blogsInDb();
+    const blogToDelete = blogsAtStart[0];
+
+    await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
+
+    const blogsAtEnd = await helper.blogsInDb();
+    assert.strictEqual(blogsAtEnd.length, blogsAtStart.length - 1);
+    const titles = blogsAtEnd.map((b) => b.title);
+    assert(!titles.includes(blogToDelete.title));
+  });
+
+  test("returns 404 if blog does not exist (4.13)", async () => {
+    const nonExistingId = await helper.nonExistingId();
+    await api.delete(`/api/blogs/${nonExistingId}`).expect(404);
+  });
+});
+
+describe("updating a blog", () => {
+  test("a blog's likes can be updated (4.14)", async () => {
+    const blogsAtStart = await helper.blogsInDb();
+    const blogToUpdate = blogsAtStart[0];
+    const updatedBlog = { ...blogToUpdate, likes: blogToUpdate.likes + 10 };
+
+    const response = await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(updatedBlog)
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+
+    assert.strictEqual(response.body.likes, updatedBlog.likes);
+  });
+
+  test("returns 404 if blog to update does not exist (4.14)", async () => {
+    const nonExistingId = await helper.nonExistingId();
+    const updatedBlog = {
+      title: "Nonexistent",
+      author: "Nobody",
+      url: "http://nope.com",
+      likes: 1,
+    };
+    await api.put(`/api/blogs/${nonExistingId}`).send(updatedBlog).expect(404);
+  });
+});
 import mongoose from "mongoose";
 import supertest from "supertest";
 import assert from "assert";
