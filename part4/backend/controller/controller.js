@@ -1,3 +1,5 @@
+import { User } from "../models/user.js";
+import bcryptjs from "bcryptjs";
 // Delete a blog by id
 export const deleteBlog = async (req, res) => {
   try {
@@ -61,5 +63,38 @@ export const createBlog = async (req, res) => {
   } catch (error) {
     console.log("erorr while creating blog!", error);
     res.status(500).json({ error: "internal server error" });
+  }
+};
+
+export const createUser = async (req, res) => {
+  try {
+    const { username, name, password } = req.body;
+    // Validate presence
+    if (!username || !password) {
+      return res
+        .status(400)
+        .json({ error: "username and password are required" });
+    }
+    // Validate length
+    if (username.length < 3 || password.length < 3) {
+      return res
+        .status(400)
+        .json({
+          error: "username and password must be at least 3 characters long",
+        });
+    }
+    // Check username uniqueness
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).json({ error: "username must be unique" });
+    }
+    const hashPassword = await bcryptjs.hash(password, 12);
+    const users = new User({ username, name, password: hashPassword });
+    await users.save();
+    res.status(201).json({ message: `new user:${username} created` });
+  } catch (error) {
+    res
+      .status(400)
+      .json({ error: error.message || "some error during create User!" });
   }
 };
