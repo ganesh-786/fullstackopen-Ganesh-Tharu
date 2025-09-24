@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --watch index.js"
+    "start": "node --watch index.js",
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "",
@@ -17,7 +18,10 @@
     "express": "^5.1.0",
     "mongoose": "^8.18.0",
     "morgan": "^1.10.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
     "eslint": "^8.57.0",
-    "@eslint/js": "^9.0.0"
+    "globals": "^16.4.0"
   }
 }
