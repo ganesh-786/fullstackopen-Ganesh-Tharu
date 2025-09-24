@@ -3,11 +3,21 @@ import { Person } from "../models/Person.js";
 export const createUser = async (req, res, next) => {
   try {
     const { name, number } = req.body;
+    
+    // Check if person already exists
+    const existingPerson = await Person.findOne({ name });
+    if (existingPerson) {
+      return res.status(400).json({ error: `${name} is already added to phonebook` });
+    }
+    
     const newPerson = new Person({ name, number });
     const savedPerson = await newPerson.save();
     res.status(201).json(savedPerson);
   } catch (error) {
     console.log("Error during Creating user", error);
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ error: error.message });
+    }
     res.status(500).json({ error: "Error creating user" });
     next(error);
   }
@@ -40,7 +50,7 @@ export const updateUser = async (req, res) => {
     const updatedPerson = await Person.findByIdAndUpdate(
       id,
       { name, number },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true, context: 'query' }
     );
     if (!updatedPerson) {
       return res.status(404).json({ error: "Person not found" });
@@ -48,6 +58,9 @@ export const updateUser = async (req, res) => {
     res.status(200).json(updatedPerson);
   } catch (error) {
     console.log("Error during updating user", error);
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ error: error.message });
+    }
     res.status(500).json({ error: "Error updating user" });
   }
 };

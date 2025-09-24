@@ -93,7 +93,11 @@ function App() {
       })
       .catch((err) => {
         console.error(err);
-        setNotify("Could not save the person");
+        if (err.response && err.response.data && err.response.data.error) {
+          setNotify(`Error: ${err.response.data.error}`);
+        } else {
+          setNotify("Could not save the person");
+        }
       });
   };
 
