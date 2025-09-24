@@ -1,57 +1,27 @@
 import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
+import App from "./App";
 import { createStore } from "redux";
+const reducer = (state = 0, action) => {
+  switch (action.type) {
+    case "INCREMENT":
+      return state + 1;
 
-const noteReducer = (state = [], action) => {
-  if (action.type === "NEW_NOTE") {
-    state.push(action.payload);
-    return state;
+    case "DECREMENT":
+      return state - 1;
+
+    case "ZERO":
+      return 0;
+
+    default:
+      return state;
   }
-
-  return state;
 };
 
-const store = createStore(noteReducer);
-store.dispatch({
-  type: "NEW_NOTE",
-  payload: {
-    content: "the app state is in redux store",
-    important: true,
-    id: 1,
-  },
-});
+const store = createStore(reducer);
 
-store.dispatch({
-  type: "NEW_NOTE",
-  payload: {
-    content: "state changes are made with actions",
-    important: false,
-    id: 2,
-  },
-});
-
-const App = () => {
-  return (
-    <>
-      <div className="container">
-        <div>
-          <ul>
-            {store.getState().map((note) => (
-              <li key={note.id}>
-                {note.content}{" "}
-                <strong>{note.important ? "important" : ""}</strong>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </>
-  );
-};
-
-const root = createRoot(document.getElementById("root"));
-
-const renderApp = () => {
-  root.render(<App />);
-};
-renderApp();
-store.subscribe(renderApp);
+createRoot(document.getElementById("root")).render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+);
