@@ -5,12 +5,13 @@ import {
   deleteBlog,
   updateBlog,
 } from "../controller/controller.js";
+import { userExtractor } from "../utils/middleware.js";
 
 const router = express.Router();
 
 router.get("/", getBlog);
-router.post("/", createBlog);
-router.delete("/:id", deleteBlog);
+router.post("/", userExtractor, createBlog);
+router.delete("/:id", userExtractor, deleteBlog);
 router.put("/:id", updateBlog);
 
 export default router;

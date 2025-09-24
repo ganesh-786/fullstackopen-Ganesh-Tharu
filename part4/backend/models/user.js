@@ -11,10 +11,16 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    password: {
+    passwordHash: {
       type: String,
       required: true,
     },
+    blogs: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Blog",
+      },
+    ],
   },
   { timestamps: true }
 );
