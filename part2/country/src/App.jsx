@@ -4,8 +4,8 @@ import axios from "axios";
 const CountryDetails = ({ country, weather }) => (
   <div>
     <h1>{country.name.common}</h1>
-    <p>Capital: {country.capital?.[0]}</p>
-    <p>Area: {country.area}</p>
+    <p>Capital {country.capital?.[0]}</p>
+    <p>Area {country.area}</p>
     <h3>Languages:</h3>
     <ul>
       {Object.values(country.languages || {}).map((lang) => (
@@ -19,14 +19,13 @@ const CountryDetails = ({ country, weather }) => (
     />
     {weather && (
       <div>
-        <h3>Weather in {country.capital?.[0]}</h3>
-        <p>Temperature: {weather.main.temp}°C</p>
-        <p>Weather: {weather.weather[0].description}</p>
+        <h2>Weather in {country.capital?.[0]}</h2>
+        <p>Temperature {weather.main.temp} Celsius</p>
         <img
           src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
           alt={weather.weather[0].description}
         />
-        <p>Wind: {weather.wind.speed} m/s</p>
+        <p>Wind {weather.wind.speed} m/s</p>
       </div>
     )}
   </div>
@@ -50,7 +49,8 @@ function App() {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [weather, setWeather] = useState(null);
 
-  const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
+  // Use the environment variable for the weather API key
+  const API_KEY = import.meta.env.VITE_SOME_KEY;
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -81,6 +81,7 @@ function App() {
 
     if (filtered.length === 1) {
       setSelectedCountry(filtered[0]);
+      setWeather(null); // Reset weather before fetching new
       fetchWeather(filtered[0].capital?.[0]);
     } else {
       setSelectedCountry(null);
@@ -90,7 +91,7 @@ function App() {
 
   const fetchWeather = async (capital) => {
     if (!capital || !API_KEY) return;
-    
+
     try {
       const response = await axios.get(
         `https://api.openweathermap.org/data/2.5/weather?q=${capital}&appid=${API_KEY}&units=metric`
@@ -103,6 +104,7 @@ function App() {
 
   const handleShowCountry = (country) => {
     setSelectedCountry(country);
+    setWeather(null); // Reset weather before fetching new
     fetchWeather(country.capital?.[0]);
   };
 
