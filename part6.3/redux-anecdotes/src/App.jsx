@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { NotificationContextProvider } from './NotificationContext'
 import AnecdoteForm from './components/AnecdoteForm'
 import AnecdoteList from './components/AnecdoteList'
 import Filter from './components/Filter'
@@ -27,13 +28,15 @@ const App = () => {
   const anecdotes = result.data
 
   return (
-    <div>
-      <h2>Anecdotes</h2>
-      <Notification />
-      <Filter />
-      <AnecdoteList anecdotes={anecdotes} />
-      <AnecdoteForm />
-    </div>
+    <NotificationContextProvider>
+      <div>
+        <h2>Anecdotes</h2>
+        <Notification />
+        <Filter />
+        <AnecdoteList anecdotes={anecdotes} />
+        <AnecdoteForm />
+      </div>
+    </NotificationContextProvider>
   )
 }
 
