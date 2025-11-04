@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
-import { appendAnecdote } from '../reducers/anecdoteReducer'
-import { setNotification, removeNotification } from '../reducers/notificationReducer'
+import { createAnecdote } from '../reducers/anecdoteReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch()
@@ -10,19 +10,8 @@ const AnecdoteForm = () => {
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
     
-    const response = await fetch('http://localhost:3001/anecdotes', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ content, votes: 0 })
-    })
-    const newAnecdote = await response.json()
-    dispatch(appendAnecdote(newAnecdote))
-    dispatch(setNotification(`you created '${content}'`))
-    setTimeout(() => {
-      dispatch(removeNotification())
-    }, 5000)
+    await dispatch(createAnecdote(content))
+    dispatch(setNotification(`you created '${content}'`, 5))
   }
 
   return (
