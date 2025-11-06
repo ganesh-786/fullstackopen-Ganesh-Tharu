@@ -39,8 +39,8 @@ router.delete("/:id", blogFinder, async (req, res) => {
 
 router.put("/:id", blogFinder, async (req, res) => {
   if (req.blog) {
-    if (req.body.important !== undefined) {
-      req.blog.important = req.body.important;
+    if (req.body.likes !== undefined) {
+      req.blog.likes = req.body.likes;
     }
     await req.blog.save();
     res.json(req.blog);
