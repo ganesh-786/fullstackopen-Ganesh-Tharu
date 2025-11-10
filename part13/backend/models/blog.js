@@ -30,6 +30,11 @@ Blog.init(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: true, // Temporarily nullable for migration
+      references: { model: "users", key: "id" },
+    },
   },
   {
     sequelize,
