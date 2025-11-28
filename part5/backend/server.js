@@ -4,6 +4,7 @@ import { connectDB } from "./config/db.js";
 import router from "./routes/route.js";
 import usersRouter from "./routes/users.js";
 import loginRouter from "./routes/login.js";
+import testingRouter from "./routes/testing.js";
 import { tokenExtractor } from "./utils/middleware.js";
 dotenv.config();
 const PORT = process.env.PORT || 8080;
@@ -25,6 +26,7 @@ app.use(tokenExtractor);
 app.use("/api/login", loginRouter);
 app.use("/api/blogs", router);
 app.use("/api/users", usersRouter);
+app.use("/api/testing", testingRouter);
 
 connectDB().then(() => {
   app.listen(PORT, () => {
