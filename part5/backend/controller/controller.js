@@ -48,10 +48,15 @@ export const deleteBlog = async (req, res) => {
 export const updateBlog = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, author, url, likes } = req.body;
+    const { title, author, url, likes, user } = req.body;
+    const updateData = { title, author, url, likes };
+    // Only update user if provided
+    if (user) {
+      updateData.user = user;
+    }
     const updated = await Blog.findByIdAndUpdate(
       id,
-      { title, author, url, likes },
+      updateData,
       { new: true, runValidators: true }
     ).populate("user", { username: 1, name: 1, _id: 1 });
     if (!updated) {
