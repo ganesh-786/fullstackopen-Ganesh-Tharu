@@ -4,12 +4,15 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "playwright test",
-    "test:ui": "playwright test --ui",
-    "test:headed": "playwright test --headed"
+    "test": "cypress run",
+    "test:open": "cypress open",
+    "test:headed": "cypress run --headed"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "cypress": "^13.7.3"
+  }
 }
